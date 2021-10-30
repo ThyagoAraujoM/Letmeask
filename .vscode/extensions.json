@@ -1,3 +1,6 @@
 {
-   "recommendations": ["dannyconnell.split-html-attributes"]
+  "recommendations": [
+    "dannyconnell.split-html-attributes",
+    "oderwat.indent-rainbow"
+  ]
 }
