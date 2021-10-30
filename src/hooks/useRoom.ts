@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { database } from "../services/firebase";
+import { useAuth } from "./useAuth";
 
 // record é objeto na typagem do typescript, podendo até trocar o {} por record tbm.
+// então retorna um objeto, com uma string e outro objeto.
 type FirebaseQuestion = Record<
   string,
   {
@@ -12,6 +14,7 @@ type FirebaseQuestion = Record<
     content: string;
     isAnswered: boolean;
     isHighlighted: boolean;
+    likes: Record<string, { authorId: string }>;
   }
 >;
 
@@ -24,9 +27,12 @@ type QuestionType = {
   content: string;
   isAnswered: boolean;
   isHighlighted: boolean;
+  likeCount: number;
+  likeId: string | undefined;
 };
 
 export function useRoom(roomId: string) {
+  const { user } = useAuth();
   const [questions, setQuestions] = useState<QuestionType[]>([]);
   const [title, setTitle] = useState("");
 
@@ -44,13 +50,23 @@ export function useRoom(roomId: string) {
             author: value.author,
             isHighlighted: value.isHighlighted,
             isAnswered: value.isAnswered,
+            // object.values pq só precisamos do id e sim só os valores
+            likeCount: Object.values(value.likes ?? {}).length,
+
+            likeId: Object.entries(value.likes ?? {}).find(
+              ([key, like]) => like.authorId === user?.id
+            )?.[0],
           };
         }
       );
       setTitle(databaseRoom.title);
       setQuestions(parsedQuestions);
     });
-  }, [roomId]);
+    // remove o listener quando o usuário sai da página
+    return () => {
+      roomRef.off("value");
+    };
+  }, [roomId, user?.id]);
 
   return { questions, title };
 }
