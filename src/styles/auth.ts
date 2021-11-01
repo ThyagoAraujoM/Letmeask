@@ -1,4 +1,6 @@
-#page-auth {
+import styled from "styled-components";
+
+export const Div = styled.div`
   display: flex;
   align-items: strech;
   height: 100vh;
@@ -51,7 +53,9 @@
     max-width: 320px;
     align-items: strech;
     text-align: center;
-
+    > div {
+      align-self: center;
+    }
     > img {
       align-self: center;
     }
@@ -66,8 +70,13 @@
         height: 50px;
         border-radius: 8px;
         padding: 0 16px;
-        background: #fff;
-        border: 1px solid #a8a8b3;
+        background: ${(props) => props.theme.colors.background};
+        border: 1px solid ${(props) => props.theme.colors.text};
+        color: ${(props) => props.theme.colors.text};
+      }
+
+      input::placeholder {
+        color: ${(props) => props.theme.colors.text};
       }
 
       button {
@@ -141,10 +150,8 @@
       margin-left: 16px;
     }
   }
-}
 
-@media (max-height: 650px) {
-  #page-auth {
+  @media (max-height: 650px) {
     aside {
       padding: 120px 80px;
       strong {
@@ -155,10 +162,8 @@
       }
     }
   }
-}
 
-@media (max-width: 850px) {
-  #page-auth {
+  @media (max-width: 850px) {
     aside {
       padding: 120px 40px;
       strong {
@@ -169,10 +174,8 @@
       }
     }
   }
-}
 
-@media (max-width: 768px) {
-  #page-auth {
+  @media (max-width: 768px) {
     display: flex;
     flex-direction: column;
     align-items: strech;
@@ -318,10 +321,8 @@
       }
     }
   }
-}
 
-@media (max-width: 300px) {
-  #page-auth {
+  @media (max-width: 300px) {
     aside {
       padding: 80px 40px 80px;
 
@@ -336,4 +337,4 @@
       }
     }
   }
-}
+`;

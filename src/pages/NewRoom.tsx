@@ -1,7 +1,7 @@
 // rnf
 import illustrationImg from "../assets/images/illustration.svg";
 import logoImg from "../assets/images/logo.svg";
-import "../styles/auth.scss";
+import { Div } from "../styles/auth";
 import { Button } from "../components/Button";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
@@ -9,7 +9,11 @@ import { FormEvent, useState } from "react";
 import { database } from "../services/firebase";
 import { useHistory } from "react-router";
 
-export function NewRoom() {
+type PropsType = {
+  toggleTheme(): void;
+};
+
+export function NewRoom(props: PropsType) {
   const history = useHistory();
   const { user } = useAuth();
   const [newRoom, setNewRoom] = useState("");
@@ -28,11 +32,11 @@ export function NewRoom() {
       authorId: user?.id,
     });
 
-    history.push(`/rooms/${firebaseRoom.key}`);
+    history.push(`/Admin/rooms/${firebaseRoom.key}`);
   }
 
   return (
-    <div id='page-auth'>
+    <Div>
       <aside>
         <img
           src={illustrationImg}
@@ -62,6 +66,6 @@ export function NewRoom() {
           </p>
         </div>
       </main>
-    </div>
+    </Div>
   );
 }

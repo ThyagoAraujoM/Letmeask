@@ -1,17 +1,25 @@
 import { useHistory } from "react-router-dom";
-import { FormEvent, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import { Button } from "../components/Button";
 import { useAuth } from "../hooks/useAuth";
 import { database } from "../services/firebase";
 import illustrationImg from "../assets/images/illustration.svg";
 import logoImg from "../assets/images/logo.svg";
 import googleIconImg from "../assets/images/google-icon.svg";
-import "../styles/auth.scss";
+import { Div } from "../styles/auth";
 
-export function Home() {
+import { ThemeContext } from "styled-components";
+import Switch from "react-switch";
+
+type PropsType = {
+  toggleTheme(): void;
+};
+
+export function Home(props: PropsType) {
   const history = useHistory();
   const { singInWithGoogle, user } = useAuth();
   const [roomCode, setRoomCode] = useState("");
+  const { colors, title } = useContext(ThemeContext);
 
   // faz com que o usuário logue no google para poder criar uma sala e depois passa para a página de criação de sala.
   async function handleCreateRoom() {
@@ -44,7 +52,7 @@ export function Home() {
   }
 
   return (
-    <div id='page-auth'>
+    <Div id='page-auth'>
       <aside>
         <img
           src={illustrationImg}
@@ -56,6 +64,19 @@ export function Home() {
       <main>
         <div className='main-theme'>
           <img src={logoImg} alt='Letmeask' />
+          <Switch
+            onChange={() => {
+              props.toggleTheme();
+            }}
+            checked={title === "dark"}
+            checkedIcon={false}
+            uncheckedIcon={false}
+            height={20}
+            width={40}
+            handleDiameter={20}
+            offColor={colors.primary}
+            onColor={colors.primary}
+          />
           <button onClick={handleCreateRoom} className='create-room'>
             <img src={googleIconImg} alt='Logo do Google' />
             Crie sua sala com o Google
@@ -74,6 +95,6 @@ export function Home() {
           </form>
         </div>
       </main>
-    </div>
+    </Div>
   );
 }

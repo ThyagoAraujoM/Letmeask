@@ -1,9 +1,10 @@
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  title: "light",
+  title: "dark",
 
   colors: {
     primary: "#835AFD",
     background: "#29292e",
-    color: "#f9f9f9",
+    text: "#f9f9f9",
   },
 };

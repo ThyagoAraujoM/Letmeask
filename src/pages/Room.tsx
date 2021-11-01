@@ -1,7 +1,9 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
+import ReactSwitch from "react-switch";
+import { ThemeContext } from "styled-components";
 import logoImg from "../assets/images/logo.svg";
 import { Button } from "../components/Button";
 import Question from "../components/Question";
@@ -9,7 +11,7 @@ import RoomCode from "../components/RoomCode";
 import { useAuth } from "../hooks/useAuth";
 import { useRoom } from "../hooks/useRoom";
 import { database } from "../services/firebase";
-import "../styles/room.scss";
+import { Div } from "../styles/room";
 
 // então retorna um objeto, com uma string e outro objeto.
 
@@ -17,12 +19,17 @@ type RoomParams = {
   id: string;
 };
 
-export default function Room() {
+type PropsType = {
+  toggleTheme(): void;
+};
+
+export default function Room(props: PropsType) {
   const { user } = useAuth();
   const params = useParams<RoomParams>();
   const roomId = params.id;
   const [newQuestion, setNewQuestion] = useState("");
   const { questions, title } = useRoom(roomId);
+  const { colors, title: titleTheme } = useContext(ThemeContext);
 
   async function handleSendQuestion(event: FormEvent) {
     event.preventDefault();
@@ -67,12 +74,27 @@ export default function Room() {
   }
 
   return (
-    <div id='page-room'>
+    <Div>
       <header>
         <div className='content'>
-          <Link to={"/"}>
-            <img src={logoImg} alt='Letmeask' />
-          </Link>
+          <div className={"logo-switch"}>
+            <Link to={"/"}>
+              <img src={logoImg} alt='Letmeask' />
+            </Link>
+            <ReactSwitch
+              onChange={() => {
+                props.toggleTheme();
+              }}
+              checked={titleTheme === "dark"}
+              checkedIcon={false}
+              uncheckedIcon={false}
+              height={20}
+              width={40}
+              handleDiameter={20}
+              offColor={colors.primary}
+              onColor={colors.primary}
+            />
+          </div>
           <RoomCode code={roomId} />
         </div>
         <div>
@@ -151,6 +173,6 @@ export default function Room() {
           })}
         </div>
       </main>
-    </div>
+    </Div>
   );
 }

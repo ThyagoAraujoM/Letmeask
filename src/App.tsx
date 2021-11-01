@@ -1,25 +1,37 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
+
 import { AuthContextProvider } from "./contexts/AuthContext";
 import AdminRoom from "./pages/AdminRoom";
 import { Home } from "./pages/Home";
 import { NewRoom } from "./pages/NewRoom";
 import Room from "./pages/Room";
 import GlobalStyle from "./styles/global";
-import light from "./styles/themes/light";
+import { ThemeProvider } from "styled-components";
+import useToggle from "./hooks/useToggle";
 
 function App() {
+  const { theme, toggleTheme } = useToggle();
+
   return (
-    <ThemeProvider theme={light}>
+    <ThemeProvider theme={theme}>
       <GlobalStyle />
       <BrowserRouter>
         <AuthContextProvider>
           <Switch>
-            <Route path='/' exact component={Home} />
-            <Route path='/rooms/new' component={NewRoom} />
-            <Route path='/rooms/:id' component={Room} />
+            <Route path='/' exact>
+              <Home toggleTheme={toggleTheme} />
+            </Route>
 
-            <Route path='/Admin/rooms/:id' component={AdminRoom} />
+            <Route path='/rooms/new'>
+              <NewRoom toggleTheme={toggleTheme} />
+            </Route>
+            <Route path='/rooms/:id'>
+              <Room toggleTheme={toggleTheme} />
+            </Route>
+
+            <Route path='/Admin/rooms/:id'>
+              <AdminRoom toggleTheme={toggleTheme} />
+            </Route>
           </Switch>
         </AuthContextProvider>
       </BrowserRouter>

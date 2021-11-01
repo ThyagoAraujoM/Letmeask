@@ -8,18 +8,26 @@ import { Button } from "../components/Button";
 import Question from "../components/Question";
 import RoomCode from "../components/RoomCode";
 import { database } from "../services/firebase";
-import "../styles/room.scss";
+import { Div } from "../styles/room";
 import { Link } from "react-router-dom";
+import ReactSwitch from "react-switch";
+import { useContext } from "react";
+import { ThemeContext } from "styled-components";
 
 type RoomParams = {
   id: string;
 };
 
-export default function AdminRoom() {
+type PropsType = {
+  toggleTheme(): void;
+};
+
+export default function AdminRoom(props: PropsType) {
   const history = useHistory();
   const params = useParams<RoomParams>();
   const roomId = params.id;
   const { questions, title } = useRoom(roomId);
+  const { colors, title: titleTheme } = useContext(ThemeContext);
 
   async function handleEndRoom() {
     await database.ref(`rooms/${roomId}`).update({
@@ -48,12 +56,27 @@ export default function AdminRoom() {
   }
 
   return (
-    <div id='page-room'>
+    <Div>
       <header>
         <div className='content'>
-          <Link to={"/"}>
-            <img src={logoImg} alt='Letmeask' />
-          </Link>
+          <div className={"logo-switch"}>
+            <Link to={"/"}>
+              <img src={logoImg} alt='Letmeask' />
+            </Link>
+            <ReactSwitch
+              onChange={() => {
+                props.toggleTheme();
+              }}
+              checked={titleTheme === "dark"}
+              checkedIcon={false}
+              uncheckedIcon={false}
+              height={20}
+              width={40}
+              handleDiameter={20}
+              offColor={colors.primary}
+              onColor={colors.primary}
+            />
+          </div>
           <div>
             <RoomCode code={roomId} />
             <Button isOutlined onClick={handleEndRoom}>
@@ -112,6 +135,6 @@ export default function AdminRoom() {
           })}
         </div>
       </main>
-    </div>
+    </Div>
   );
 }
