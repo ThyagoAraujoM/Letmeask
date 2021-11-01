@@ -29,7 +29,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 
 O Letmeask é um app para aulas onlines ou streams que os usuários colocam suas dúvidas e o administrador responde elas enquanto da destaque a mensagens sendo respondidas ou avisa que já foram respondidas.
 
-Clique <a href="https://letmeask-three.vercel.app">aqui</a> para acessar a aplicação rodando.
+Clique <a target="_blank" href="https://letmeask-three.vercel.app">aqui</a> para acessar a aplicação rodando.
 
 ## 🚀 Como executar
 
