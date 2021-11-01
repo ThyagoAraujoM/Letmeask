@@ -9,7 +9,7 @@
       justify-content: space-between;
       align-items: center;
 
-      > img {
+      img {
         max-height: 45px;
       }
 
@@ -101,6 +101,45 @@
 
     .question-list {
       margin-top: 32px;
+    }
+  }
+}
+
+@media (max-width: 800px) {
+  #page-room {
+    main {
+      padding: 0 20px;
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  #page-room {
+    header {
+      .content {
+        flex-direction: column;
+        gap: 15px;
+
+        > div {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+
+          button {
+            height: 40px;
+          }
+        }
+      }
+    }
+    main {
+      padding: 0 20px;
+      .room-title {
+        flex-direction: column;
+        gap: 10px;
+        h1 {
+          font-size: 18px;
+        }
+      }
     }
   }
 }
